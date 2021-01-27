@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "fault-server",
+  "description": "os-server",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node -r dotenv/config -r ts-node/register ./src/index.ts",
     "dev:watch": "nodemon",
