@@ -48,7 +48,7 @@ const oversiteController = {
 				site: 'www.hunterfoulk.com',
 				title: 'Oversite 2',
 				category: 'Portfolio',
-				description: 'Seems like this guy knows his stuff. Shit designer tho.',
+				description: 'Seems like this guy knows his stuff.',
 				screenshots: []
 			}
 		]
