@@ -1,4 +1,3 @@
-
 interface Oversite {
 	uid: number
 	site: string
@@ -8,7 +7,7 @@ interface Oversite {
 	screenshots: object[]
 }
 
-import resolver from '../Utils/resolver'
+import resolver from '../Utils/Resolver'
 
 import * as fs from 'fs'
 import * as path from 'path'
@@ -16,7 +15,6 @@ import * as path from 'path'
 function imageToBase64(file) {
 	const bitmap = fs.readFileSync(file);
 	return Buffer.from(bitmap).toString('base64');
-
 }
 
 function base64ToBuffer(base64str): Buffer {
@@ -24,14 +22,19 @@ function base64ToBuffer(base64str): Buffer {
 }
 
 const oversiteController = {
-	get: (req, res) => {
 
-		// get image from file system for now
-		// => get base64 str from database
+	get: (req, res) => {
+		// testing: get image from file system
+		// prod: get base64 str from database
+
+		// encode each image into base64 string
+		// -done prior to db insertion
 		const img1 = imageToBase64(path.join(__dirname, '../', 'Assets/kylecaprio_dev1.jpg'));
 		const img2 = imageToBase64(path.join(__dirname, '../', 'Assets/kylecaprio_dev2.jpg'));
 
-
+		// get images from database
+		// encode each image into buffer
+		// client will decode each buffer into base64 string for img tag src 
 		const kylecaprio_dev1 = base64ToBuffer(img1)
 		const kylecaprio_dev2 = base64ToBuffer(img2)
 
@@ -53,12 +56,16 @@ const oversiteController = {
 			}
 		]
 
-		res.send(resolver(200, 'Oversites Returned', oversites))
+		// out:
+		// status
+		// message
+		// oversites
+
+		resolver(res, 200, 'Oversites Returned', oversites)
 
 	},
-	post: (req, res) => {
-		console.log(req);
 
+	post: (req, res) => {
 		// const oversites: Oversite = {
 		// 	uid: null,
 		// 	site: '',
@@ -77,7 +84,7 @@ const oversiteController = {
 		// For each image in screenshots arr
 		// Turn image into base 64 string that can be stored in db
 		// Or maybe send each screenshot induvidually on itteration to reduce final arr size
-		const imageEncoded = imageToBase64(path.join(__dirname, '../', 'Assets/kylecaprio_dev.jpg'));
+		// const imageEncoded = imageToBase64(path.join(__dirname, '../', 'Assets/kylecaprio_dev.jpg'));
 
 		// route:
 		// verify user 
@@ -90,9 +97,9 @@ const oversiteController = {
 		// out:
 		// status code
 		// message
-		// all new faults
+		// data
 
-		res.json({})
+		// res.json({})
 	}
 }
 
