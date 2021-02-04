@@ -15,7 +15,7 @@ export function createUserToken(user: typeof User): string {
 }
 
 export function sendUserCookie(res: Response, token: string) {
-	res.cookie("OSuTok", token, {
+	res.cookie("OS_USERAUTH", token, {
 		httpOnly: true,
 		expires: new Date(Date.now() + (6.048e+8 * 4)),
 		path: "/"

@@ -11,6 +11,6 @@ export default function userRouter(router: Router): void {
 	router.route('/register')
 		.post(userController.register)
 
-	router.route('/u-token')
+	router.route('/user-auth')
 		.get(userController.validateToken)
 }

@@ -79,10 +79,10 @@ export const register = (req, res) => {
 
 export const validateToken = (req, res) => {
 	const userCookie = req.cookies
-	const userToken = userCookie['OSuTok']
+	const userToken = userCookie['OS_USERAUTH']
 
 	if (Object.keys(userCookie).length <= 0) return resolver(res, 401, 'No Cookies', null)
-	if (!userToken) return resolver(res, 401, '', null)
+	if (!userToken) return resolver(res, 401, 'No Token', null)
 	console.log({ userToken: userToken.slice(0, 10) + '...' })
 
 	jwt.verify(userToken, USER_SECRET, { issuer: 'OS-Server' }, (err, decoded: any) => {
@@ -93,6 +93,8 @@ export const validateToken = (req, res) => {
 		const uPayload = new User(uid, username, join_date)
 		const userToken = createUserToken(uPayload)
 		const accessToken = createAccessToken(uPayload)
+
+		console.log({ verifiedUid: uid })
 
 		sendUserCookie(res, userToken)
 		resolver(res, 200, 'User Token Decoded', { ...decoded, accessToken })
