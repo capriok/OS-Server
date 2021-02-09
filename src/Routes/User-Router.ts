@@ -13,4 +13,5 @@ export default function userRouter(router: Router): void {
 
 	router.route('/user-auth')
 		.get(userController.validateToken)
+
 }

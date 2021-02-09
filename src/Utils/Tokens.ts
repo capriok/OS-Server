@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken'
 import User from '../Models/User'
-const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'secret'
-const USER_SECRET = process.env.JWT_USER_SECRET || 'secret'
+const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET
+const USER_SECRET = process.env.JWT_USER_SECRET
 
 const options = { expiresIn: '7d', issuer: 'OS-Server' }
 import { Response } from 'express'
@@ -19,5 +19,10 @@ export function sendUserCookie(res: Response, token: string) {
 		httpOnly: true,
 		expires: new Date(Date.now() + (6.048e+8 * 4)),
 		path: "/"
-	});
-};
+	})
+}
+
+export function revokeUserCookie(res: Response) {
+	console.log({ tokenRevoked: true })
+	res.clearCookie('OS_USERAUTH')
+}

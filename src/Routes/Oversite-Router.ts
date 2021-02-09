@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import oversiteController from '../Controllers/Oversite-Controller'
+import * as oversiteController from '../Controllers/Oversite-Controller'
 
 export default function oversiteRouter(router: Router): void {
 	router.route('/oversites')

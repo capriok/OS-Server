@@ -2,12 +2,13 @@ import User from '../Models/User'
 import query, { statements as stmt } from '../Utils/MySQL'
 import resolver from '../Utils/Resolver'
 
-import { bcryptCompare, bcryptHash } from '../Utils/Bcrypt'
 import * as jwt from 'jsonwebtoken'
-import { createAccessToken, createUserToken, sendUserCookie } from '../Utils/Tokens'
-const USER_SECRET = process.env.JWT_USER_SECRET || 'secret'
+import { bcryptCompare, bcryptHash } from '../Utils/Bcrypt'
+import { createAccessToken, createUserToken, revokeUserCookie, sendUserCookie } from '../Utils/Tokens'
 
-export const allUsers = (req, res) => {
+import { Request, Response } from 'express'
+
+export const allUsers = (req: Request, res: Response): void => {
 	query(stmt.get.allUsers())
 		.then(usersRes => {
 			console.log(usersRes)
@@ -19,7 +20,7 @@ export const allUsers = (req, res) => {
 		})
 }
 
-export const login = (req, res) => {
+export const login = (req: Request, res: Response): void => {
 	const { username, password } = req.body
 	console.log({ body: req.body })
 	query(stmt.get.login(username))
@@ -48,7 +49,7 @@ export const login = (req, res) => {
 		})
 }
 
-export const register = (req, res) => {
+export const register = (req: Request, res: Response): void => {
 	const { username, password } = req.body
 	console.log({ body: req.body })
 
@@ -77,17 +78,23 @@ export const register = (req, res) => {
 		})
 }
 
-export const validateToken = (req, res) => {
+const USER_SECRET = process.env.JWT_USER_SECRET
+export const validateToken = (req: Request, res: Response): void => {
 	const userCookie = req.cookies
 	const userToken = userCookie['OS_USERAUTH']
 
-	if (Object.keys(userCookie).length <= 0) return resolver(res, 401, 'No Cookies', null)
+	if (Object.keys(userCookie).length <= 0) return resolver(res, 400, 'No Cookies', null)
 	if (!userToken) return resolver(res, 401, 'No Token', null)
 	console.log({ userToken: userToken.slice(0, 10) + '...' })
 
 	jwt.verify(userToken, USER_SECRET, { issuer: 'OS-Server' }, (err, decoded: any) => {
 
-		if (!decoded) return resolver(res, 401, 'Token Invalid', null)
+		if (!decoded) {
+			revokeUserCookie(res)
+			return resolver(res, 404, 'Token Invalid', null)
+		}
+
+		console.log(decoded.user)
 
 		const { uid, username, join_date } = decoded.user
 		const uPayload = new User(uid, username, join_date)
