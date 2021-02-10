@@ -29,8 +29,8 @@ export const get = (req: Request, res: Response): void => {
 
 	// encode each image into base64 string
 	// -done prior to db insertion
-	const img1 = imageToBase64(path.join(__dirname, '../', 'Assets/kylecaprio_dev1.jpg'));
-	const img2 = imageToBase64(path.join(__dirname, '../', 'Assets/kylecaprio_dev2.jpg'));
+	const img1 = imageToBase64(path.join(__dirname, '../', 'Assets/kylecaprio_dev1.jpg'))
+	const img2 = imageToBase64(path.join(__dirname, '../', 'Assets/kylecaprio_dev2.jpg'))
 
 	// get images from database
 	// encode each image into buffer
