@@ -9,6 +9,7 @@ interface Oversite {
 	uid: number
 	site: string
 	title: string
+	serverity: number
 	category: string
 	description: string
 	proof: object[]
@@ -43,15 +44,25 @@ export const get = (req: Request, res: Response): void => {
 			uid: 17,
 			site: 'www.kylecaprio.dev',
 			title: 'Oversite 1',
-			category: 'Portfolio',
+			serverity: 5,
+			category: 'Functionality Bug',
 			description: 'Website is amazing but the stars are a bit much.',
 			proof: [kylecaprio_dev1, kylecaprio_dev2]
 		}, {
 			uid: 20,
 			site: 'www.hunterfoulk.com',
 			title: 'Oversite 2',
-			category: 'Portfolio',
+			serverity: 2,
+			category: 'Design flaw',
 			description: 'Seems like this guy knows his stuff.',
+			proof: []
+		}, {
+			uid: 17,
+			site: 'www.github.com',
+			title: 'Oversite 3',
+			serverity: 4,
+			category: 'Compatibility',
+			description: 'Dark mode styles interfere with Chrome extension dark mode.',
 			proof: []
 		}
 	]
