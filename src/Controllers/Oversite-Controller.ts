@@ -7,8 +7,8 @@ import { Request, Response } from 'express'
 
 interface Oversite {
 	uid: number
-	site: string
 	title: string
+	site: string
 	serverity: number
 	category: string
 	description: string
@@ -77,6 +77,12 @@ export const get = (req: Request, res: Response): void => {
 }
 
 export const post = (req: Request, res: Response): void => {
+	const data = req.body
+
+	console.log(req);
+	console.log(data);
+
+
 	// const oversites: Oversite = {
 	// 	uid: null,
 	// 	site: '',
@@ -110,5 +116,5 @@ export const post = (req: Request, res: Response): void => {
 	// message
 	// data
 
-	// res.json({})
+	res.json(200)
 }
